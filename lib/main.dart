@@ -2,7 +2,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
 import 'package:hotelflutter/accueil.dart';
+import 'package:hotelflutter/inscrire.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
   }
@@ -61,89 +64,189 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-static Future<User?> login({required String email,required password,required BuildContext context}) async{
-  FirebaseAuth auth=FirebaseAuth.instance;
-  User? user;
-  try{
-    UserCredential userCredential =await auth.signInWithEmailAndPassword(email: email, password: password);
-    user =userCredential.user;
 
-  }on FirebaseAuthException catch(e){
-    if(e.code=="user-not-found"){
-      print("no User found for that email");
-    }
-  }
-  return user;
-  
-}
 
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailcontr=TextEditingController();
-    TextEditingController passcontr=TextEditingController();
-    return  Padding(
-      padding:const  EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-           const Text("Authentification",style: TextStyle(
-            color: Color(0xFF0069FE),
-            fontSize: 28.0,
-            fontWeight: FontWeight.w900,
-          
-          ),),
-           const SizedBox(height: 44.0,),
-           TextField(
-            controller: emailcontr,
-            keyboardType: TextInputType.emailAddress,
-            decoration:const InputDecoration(
-            hintText: "Address email...",
-            prefixIcon: Icon(Icons.mail,color: Colors.black,)
-          ) ,
-          ),
-           const SizedBox(height: 26,),
-            TextField(
-              controller: passcontr,
-              obscureText: true,
-              decoration: InputDecoration(
-              hintText: "Mot de passe...",
-              prefixIcon: Icon(Icons.lock, color: Colors.black,)
-            ),
-          ),
-           const SizedBox(
-            height: 18
-            ),
-           const Text("Mot de passe oublier?",
-            style: TextStyle(color: Colors.blue),textAlign: TextAlign.start,),
-           const SizedBox(height: 88,),
-          Container(
-            width: double.infinity,
-            child: RawMaterialButton(
-              fillColor: const Color(0xFF0069FE),
-              elevation: 0.0,
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-              onPressed: () async{
-                User? user =await login(email: emailcontr.text, password: passcontr.text, context: context);
-                print(user);
-                if(user != null){
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> acc()));
-                }
-              },
-              child: const Text("connexion",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 23,
-                fontWeight: FontWeight.w500
-                
-              ),),
-            ),
-          ),
-
-        ],
+    return Scaffold(
+      body: Container(
         
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            colors: [
+              Colors.blue.shade600,
+              Colors.blue.shade300,
+              Colors.blue.shade100
+            ]
+            )
+        ),
+        child:   Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 80,),
+           const Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children:<Widget> [
+                  Text("Authentification",
+                  style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30
+              ),
+              ),
+              SizedBox(height: 10,),
+              Text("Bienvenue chez rafelz",
+                  style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18
+              ),
+              )
+              ],
+              ),
+              ),
+              SizedBox(height: 30,),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(60),topRight: Radius.circular(60))
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 60,),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [BoxShadow(
+                              color: Color.fromRGBO(89, 123, 235, 0.634),
+                              blurRadius: 20,
+                              offset: Offset(0,10)
+
+                            )]
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(color: Colors.grey.shade200))
+                                ),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: "address email...",
+                                    hintStyle: TextStyle(color: Colors.blueGrey),
+                                    prefixIcon: Icon(Icons.mail,color: Colors.blue.shade100,),
+                                    border: InputBorder.none
+                                  ),
+                                  ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(color: Colors.grey.shade200))
+                                ),
+                                child: TextField(
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.lock, color: Colors.blue.shade100,),
+                                    hintText: "Mot de passe...",
+                                    hintStyle: TextStyle(color: Colors.blueGrey),
+                                    border: InputBorder.none
+                                  ),
+                                  ),
+                              ),
+
+                            ]
+                            ),
+                        ),
+                        SizedBox(height: 40,),
+                        Text.rich(
+                          TextSpan(
+                            text: 'vous n avez pas un compte?',
+                            style: TextStyle(
+                              color: Color(0xFF0069FE),
+                              fontSize: 16
+
+                            ),
+                            
+                            children: <TextSpan>[
+                              
+                              TextSpan(
+                                text: 'Cliquez ici',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,                  
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> acc()));
+                                  },
+                                
+                              )
+                            ]
+                            
+                            )
+                          
+                            
+                        ),
+                        SizedBox(height: 40,),
+                        Container(
+                          height: 50,
+                          margin: EdgeInsets.symmetric(horizontal: 50),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: Colors.blue.shade900
+                            ),
+                            child: Center(
+                              child: Text("Connexion",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold
+                                ),)),
+                        ),
+                        SizedBox(height: 30,),
+                        Text("Pour l'admin",style: TextStyle(color: Colors.grey),),
+                        SizedBox(height: 30,),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Colors.black
+                                ),
+                                child: Center(
+                              child: Text("Acce Admin",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold
+                                ),)),
+                              ),
+                            ),
+                            
+                          ],)
+                      ]
+                      ),
+
+                    ),
+                 
+                  
+              ))
+            
+            
+
+          ],
+        ),
       ),
-      );
+    );
   }
 }
