@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hotelflutter/accueil.dart';
@@ -11,11 +12,30 @@ class logA extends StatefulWidget {
 }
 
 class _logAState extends State<logA> {
+  static Future<User?> login({required String email,required password,required BuildContext context}) async{
+  FirebaseAuth auth=FirebaseAuth.instance;
+  User? user;
+  try{
+    UserCredential userCredential =await auth.signInWithEmailAndPassword(email: email, password: password);
+    user =userCredential.user;
+
+  }on FirebaseAuthException catch(e){
+    if(e.code=="user-not-found"){
+      print("no User found for that email");
+    }
+  }
+  return user;
+  
+}
+
   @override
   Widget build(BuildContext context) {
     TextEditingController emailcontr=TextEditingController();
     TextEditingController passcontr=TextEditingController();
-    return  Padding(
+    return Material(
+      child : Scaffold(
+      body :SingleChildScrollView(
+      child :Padding(
       padding:const  EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,9 +78,11 @@ class _logAState extends State<logA> {
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
               onPressed: () async{
-                
+                User? user =await login(email: emailcontr.text, password: passcontr.text, context: context);
+                print(user);
+                if(user != null){
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> acc()));
-                
+                }
               },
               child: const Text("connexion",
               style: TextStyle(
@@ -107,6 +129,7 @@ class _logAState extends State<logA> {
         ],
         
       ),
-      );
+      ),
+    ),),);
   }
 }
