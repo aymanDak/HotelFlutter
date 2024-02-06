@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209405563746",
+    "project_id": "hotel-9bc20",
+    "storage_bucket": "hotel-9bc20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209405563746:android:dbce490aead192b072123b",
+        "android_client_info": {
+          "package_name": "com.example.hotelflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDo-K89ORwkN4X2HiPsRmsnaT31koPanA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
