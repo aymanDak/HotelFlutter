@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               imageUrl: room['image_url'],
                               label: room['label'],
                               price: room['price'],
+                              description:room['description']
                             ),
                           ),
                         );
@@ -143,12 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Handle search button tap
               },
             ),
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-                // Handle notifications button tap
-              },
-            ),
+            
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () async {

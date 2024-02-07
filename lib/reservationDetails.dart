@@ -9,13 +9,15 @@ class Reservation extends StatefulWidget {
   final String imageUrl;
   final String label;
   final double price;
+  final String description;
    
 
   const Reservation({
     required this.imageUrl,
     required this.label,
     required this.price,
-    Key? key,
+    required this.description,
+    Key? key, 
   }) : super(key: key);
 
   @override
@@ -139,8 +141,7 @@ class _ReservationState extends State<Reservation> {
                 Text("Description",
                 style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.blue.shade300)),
                 SizedBox(height: 10,),
-                Text("lggggggggggggggggggggggggggggggggggggggggggggggggggggggg"+
-                "ggggggggggrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrddddddddddddddddddddd",
+                Text(widget.description,
                 style: TextStyle(
                   color: Colors.grey.shade600
                 )),

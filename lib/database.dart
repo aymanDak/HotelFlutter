@@ -17,6 +17,7 @@ class Database {
   required String label,
   required double price,
   required File image,
+  required String description, // New parameter for description
 }) async {
   try {
     // Check if a room with the same label already exists
@@ -40,12 +41,14 @@ class Database {
       'label': label,
       'price': price,
       'image_url': imageUrl,
+      'description': description, // Include description in Firestore document
       'created_at': FieldValue.serverTimestamp(),
     });
   } catch (error) {
     throw ('Error adding room: $error');
   }
 }
+
 
 
 
@@ -58,7 +61,7 @@ class Database {
     }
   }
 
-  static Future<void> updateRoom(String roomId, {
+  /*static Future<void> updateRoom(String roomId, {
     String? label,
     double? price,
     File? image,
@@ -80,7 +83,32 @@ class Database {
     } catch (error) {
       throw ('Error updating room: $error');
     }
+  }*/
+static Future<void> updateRoom(String label, Map<String, dynamic> updatedData, File? image) async {
+  try {
+    Map<String, dynamic> updatedRoom = {};
+
+    if (updatedData.containsKey('label')) updatedRoom['label'] = updatedData['label'];
+    if (updatedData.containsKey('price')) updatedRoom['price'] = updatedData['price'];
+    if (updatedData.containsKey('description')) updatedRoom['description'] = updatedData['description']; // Add description to updated room data
+
+    if (image != null) {
+      String imagePath = 'rooms/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      await _storage.ref().child(imagePath).putFile(image);
+      String imageUrl = await _storage.ref(imagePath).getDownloadURL();
+      updatedRoom['image_url'] = imageUrl;
+    }
+
+    QuerySnapshot querySnapshot = await _firestore.collection('rooms').where('label', isEqualTo: label).get();
+    querySnapshot.docs.forEach((doc) async {
+      await _firestore.collection('rooms').doc(doc.id).update(updatedRoom);
+    });
+  } catch (error) {
+    throw ('Error updating room: $error');
   }
+}
+
+
 
  /* static Future<void> deleteRoom(String roomId) async {
     try {
@@ -119,6 +147,22 @@ Future<bool> verifierInformationsConnexion(String email, String motDePasse) asyn
     throw e; // Gérer l'erreur selon les besoins
   }
 }
+
+static Future<Map<String, dynamic>> getRoomByLabel(String label) async {
+  try {
+    var query = await _firestore.collection('rooms').where('label', isEqualTo: label).get();
+    if (query.docs.isNotEmpty) {
+      Map<String, dynamic> roomData = query.docs.first.data() as Map<String, dynamic>;
+      roomData['id'] = query.docs.first.id;
+      return roomData;
+    } else {
+      throw Exception('Room not found with label $label');
+    }
+  } catch (error) {
+    throw ('Error getting room details: $error');
+  }
+}
+
 Future<bool> ajouterReservation(Map<String, dynamic> infosReservation) async {
   try {
     var docRef = FirebaseFirestore.instance.collection("reservations").doc(); // Firestore générera un ID automatique

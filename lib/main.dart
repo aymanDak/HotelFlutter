@@ -14,9 +14,9 @@ Future<void> main() async {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     //home: AddRoomWidget(), // Wrap AddRoomWidget with MaterialApp
-    //home: HomeScreen(),
+    home: HomeScreen(),
    // home: logA(),
-    home: loginC(),
+    //home: loginC(),
   ));
 }
 

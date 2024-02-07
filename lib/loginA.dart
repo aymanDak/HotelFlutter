@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hotelflutter/add_home_page.dart';
 import 'package:hotelflutter/add_room_widget.dart';
 import 'package:hotelflutter/home_screen.dart';
 import 'package:hotelflutter/inscrire.dart';
@@ -85,7 +86,7 @@ class _logAState extends State<logA> {
                     onPressed: () async {
                       User? user = await login(email: emailcontr.text, password: passcontr.text, context: context);
                       if (user != null) {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AdminHomePage()));
                       }
                     },
                     child: const Text(
