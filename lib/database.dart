@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hotelflutter/SessionManager.dart';
 
 class Database {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -106,7 +107,13 @@ Future<bool> verifierInformationsConnexion(String email, String motDePasse) asyn
         .where('pass', isEqualTo: motDePasse)
         .get();
 
-    return querySnapshot.docs.isNotEmpty;
+    if (querySnapshot.docs.isNotEmpty) {
+      // Authentification réussie, définir l'ID de l'utilisateur dans la session
+      SessionM.setUser(querySnapshot.docs.first.id);
+      return true;
+    } else {
+      return false;
+    }
   } catch (e) {
     print('Erreur lors de la vérification des informations de connexion: $e');
     throw e; // Gérer l'erreur selon les besoins

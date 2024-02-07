@@ -33,7 +33,8 @@ class _logAState extends State<logA> {
     TextEditingController passcontr = TextEditingController();
     return Material(
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: Center(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -98,34 +99,12 @@ class _logAState extends State<logA> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Text.rich(
-                  TextSpan(
-                    text: 'vous n avez pas un compte?',
-                    style: TextStyle(
-                      color: Color(0xFF0069FE),
-                      fontSize: 16,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Cliquez ici',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => inscrire()));
-                          },
-                      ),
-                    ],
-                  ),
-                ),
+                
               ],
             ),
           ),
         ),
       ),
-    );
+    ));
   }
 }

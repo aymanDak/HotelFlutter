@@ -12,6 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     //home: AddRoomWidget(), // Wrap AddRoomWidget with MaterialApp
     //home: HomeScreen(),
    // home: logA(),

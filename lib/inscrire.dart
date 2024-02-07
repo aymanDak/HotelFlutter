@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotelflutter/loginA.dart';
+import 'package:hotelflutter/loginC.dart';
 import 'package:hotelflutter/main.dart';
 import 'database.dart';
 
@@ -23,7 +24,7 @@ class _inscrireState extends State<inscrire> {
       appBar: AppBar(leading: IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: (){
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> logA()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> loginC()));
         },
         ),),
       body: SingleChildScrollView(

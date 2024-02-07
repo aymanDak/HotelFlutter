@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hotelflutter/SessionManager.dart';
 import 'package:hotelflutter/loginA.dart';
+import 'package:hotelflutter/loginC.dart';
 import 'database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -21,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String? userid=SessionM.getUserId();
     return Scaffold(
       appBar: AppBar(
         title: Text('Rafelz'),
@@ -76,8 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: ()async {
                 // Handle profile button tap
                 // Check authentication state
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    
+    if (userid != null) {
       // User is logged in, show logout dialog
       showDialog(
         context: context,
@@ -88,9 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: [
               TextButton(
                 onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
+                  
                   Navigator.pop(context); // Close the dialog
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => logA()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => loginC()));
 
                 },
                 child: Text('Yes'),

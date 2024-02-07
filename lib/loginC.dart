@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hotelflutter/database.dart';
 import 'package:hotelflutter/home_screen.dart';
 import 'package:hotelflutter/inscrire.dart';
+import 'package:hotelflutter/loginA.dart';
 
 class loginC extends StatefulWidget {
   const loginC({super.key});
@@ -44,7 +45,7 @@ TextEditingController pass=TextEditingController();
                         ),
                       ),
                       SizedBox(height: 10,),
-                      Text("Bienvenue chez rafelz",
+                      Text("Bienvenue chez Raffles",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18
@@ -180,7 +181,7 @@ TextEditingController pass=TextEditingController();
                             Expanded(
                               child :GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> loginC()));
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> logA()));
                                 },
                                 child: Container(
                                   height: 50,
