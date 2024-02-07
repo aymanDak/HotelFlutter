@@ -52,9 +52,13 @@ Future<void> _pickImage() async {
       // Reset controllers and image after successful addition
       _labelController.clear();
       _priceController.clear();
-      setState(() {
+     /* setState(() {
         _image = File(''); // Reset image to empty file
-      });
+      });*/
+      setState(() {
+  _image = null; // Reset image to null
+});
+
 
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -116,27 +120,23 @@ Future<void> _showRoom() async {
                         IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () async {
-                            try {
-                              // Call deleteRoom function from Database class
-                              await Database.deleteRoom(room['id']);
-                              
-                              // Remove the deleted room from the local list to update UI
-                              setState(() {
-                                rooms.remove(room);
-                              });
+                             try {
+      await Database.deleteRoom(room['label']); // Pass label instead of ID
+      setState(() {
+        rooms.remove(room);
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Room deleted successfully.'),
+        ),
+      );
+           _showRoom(); //refresh the dialog
 
-                              // Show success message
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Room deleted successfully.'),
-                                ),
-                              );
-                            } catch (error) {
-                              // Show error message if deletion fails
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Failed to delete room: $error'),
-                                ),
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to delete room: $error'),
+        ),
                               );
                             }
                           },

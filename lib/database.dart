@@ -12,12 +12,21 @@ class Database {
 }
   
 
-  static Future<void> addRoom({
+ static Future<void> addRoom({
   required String label,
   required double price,
   required File image,
 }) async {
   try {
+    // Check if a room with the same label already exists
+    QuerySnapshot querySnapshot = await _firestore.collection('rooms')
+        .where('label', isEqualTo: label)
+        .get();
+    
+    if (querySnapshot.docs.isNotEmpty) {
+      throw ('Room with label "$label" already exists.');
+    }
+
     // Upload image to Firebase Storage
     String imagePath = 'rooms/${DateTime.now().millisecondsSinceEpoch}.jpg';
     await _storage.ref().child(imagePath).putFile(image);
@@ -36,6 +45,7 @@ class Database {
     throw ('Error adding room: $error');
   }
 }
+
 
 
   static Future<List<Map<String, dynamic>>> getRooms() async {
@@ -71,11 +81,23 @@ class Database {
     }
   }
 
-  static Future<void> deleteRoom(String roomId) async {
+ /* static Future<void> deleteRoom(String roomId) async {
     try {
       await _firestore.collection('rooms').doc(roomId).delete();
     } catch (error) {
       throw ('Error deleting room: $error');
     }
+  }*/
+  static Future<void> deleteRoom(String label) async {
+  try {
+    QuerySnapshot querySnapshot = await _firestore.collection('rooms').where('label', isEqualTo: label).get();
+    querySnapshot.docs.forEach((doc) async {
+      await _firestore.collection('rooms').doc(doc.id).delete();
+    });
+  } catch (error) {
+    throw ('Error deleting room: $error');
   }
+}
+
+
 }
