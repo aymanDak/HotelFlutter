@@ -119,6 +119,14 @@ Future<bool> verifierInformationsConnexion(String email, String motDePasse) asyn
     throw e; // Gérer l'erreur selon les besoins
   }
 }
-
-
+Future<bool> ajouterReservation(Map<String, dynamic> infosReservation) async {
+  try {
+    var docRef = FirebaseFirestore.instance.collection("reservations").doc(); // Firestore générera un ID automatique
+    await docRef.set(infosReservation);
+    return true; // Indique que l'ajout s'est terminé avec succès
+  } catch (e) {
+    print("Erreur lors de l'ajout de la réservation: $e");
+    return false; // Indique que l'ajout a échoué
+  }
+}
 }

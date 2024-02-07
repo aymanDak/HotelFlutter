@@ -120,10 +120,7 @@ TextEditingController pass=TextEditingController();
                             bool utilisateurExiste = await Database().verifierInformationsConnexion(emeil.text, pass.text);
                             if (utilisateurExiste) {
                               // Authentification réussie, rediriger vers la page d'accueil
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => HomeScreen()),
-                              );
+                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomeScreen()));
                             } else {
                               // Afficher un message d'erreur à l'utilisateur
                               ScaffoldMessenger.of(context).showSnackBar(

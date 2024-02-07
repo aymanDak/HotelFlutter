@@ -6,6 +6,7 @@ import 'package:hotelflutter/reservationDetails.dart';
 import 'database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String? userid = SessionM.getUserId();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rafelz'),
+        title: Text('Home'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: roomsFuture,
@@ -42,27 +43,84 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: rooms.length,
               itemBuilder: (context, index) {
                 final room = rooms[index];
-                return ListTile(
-                  title: Text(room['label'] ?? ''),
-                  subtitle: Text('Price: ${room['price']}'),
-                  leading: Image.network(room['image_url'] ?? ''), // Display room image
-                  // Add Reserve button
-                  trailing: ElevatedButton(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Reservation(
-          imageUrl: room['image_url'],
-          label: room['label'],
-          price: room['price'],
-        ),
-      ),
-    );
-  },
-  child: Text('Reserve'),
-),
-
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Reservation(
+                              imageUrl: room['image_url'],
+                              label: room['label'],
+                              price: room['price'],
+                            ),
+                          ),
+                        );
+                       
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        margin: EdgeInsets.symmetric(horizontal: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          image: DecorationImage(
+                            image: NetworkImage(room['image_url'] ?? ''),
+                            fit: BoxFit.cover,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.5),
+                                padding: EdgeInsets.all(8),
+                                child: Text(
+                                  room['label'] ?? '',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white,
+                                ),
+                                child: Text(
+                                  room['price'].toString() + " Dh/nuits",
+                                  style: TextStyle(
+                                    color: Colors.blue.shade200,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15), // Espacement entre les images
+                  ],
                 );
               },
             );
@@ -134,4 +192,23 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  /*title: Text(room['label'] ?? ''),
+                  subtitle: Text('Price: ${room['price']}'),
+                  leading: Image.network(room['image_url'] ?? ''), // Display room image
+                  // Add Reserve button
+                  trailing: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Reservation(
+                              imageUrl: room['image_url'],
+                              label: room['label'],
+                              price: room['price'],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text('Reserve'),
+                    ), */
 }
