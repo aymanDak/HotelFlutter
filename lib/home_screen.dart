@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hotelflutter/SessionManager.dart';
 import 'package:hotelflutter/loginA.dart';
 import 'package:hotelflutter/loginC.dart';
+import 'package:hotelflutter/reservationDetails.dart';
 import 'database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String? userid=SessionM.getUserId();
+    String? userid = SessionM.getUserId();
     return Scaffold(
       appBar: AppBar(
         title: Text('Rafelz'),
@@ -45,7 +46,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: Text(room['label'] ?? ''),
                   subtitle: Text('Price: ${room['price']}'),
                   leading: Image.network(room['image_url'] ?? ''), // Display room image
-                  // You can add more information or customize the ListTile as needed
+                  // Add Reserve button
+                  trailing: ElevatedButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Reservation(
+          imageUrl: room['image_url'],
+          label: room['label'],
+          price: room['price'],
+        ),
+      ),
+    );
+  },
+  child: Text('Reserve'),
+),
+
                 );
               },
             );
@@ -76,42 +93,40 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
-              onPressed: ()async {
+              onPressed: () async {
                 // Handle profile button tap
                 // Check authentication state
-    
-    if (userid != null) {
-      // User is logged in, show logout dialog
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Logout'),
-            content: Text('Are you sure you want to logout?'),
-            actions: [
-              TextButton(
-                onPressed: () async {
-                  
-                  Navigator.pop(context); // Close the dialog
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => loginC()));
 
-                },
-                child: Text('Yes'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close the dialog
-                },
-                child: Text('No'),
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      // User is not logged in, navigate to login screen
-      Navigator.push(context, MaterialPageRoute(builder: (context) => logA()));
-    }
+                if (userid != null) {
+                  // User is logged in, show logout dialog
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Logout'),
+                        content: Text('Are you sure you want to logout?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              Navigator.pop(context); // Close the dialog
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => loginC()));
+                            },
+                            child: Text('Yes'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Close the dialog
+                            },
+                            child: Text('No'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  // User is not logged in, navigate to login screen
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => logA()));
+                }
               },
             ),
           ],
