@@ -106,7 +106,7 @@ Future<void> _showRoom() async {
                       height: 50,
                     ),
                     title: Text(room['label']),
-                    subtitle: Text('\$${room['price']}'),
+                    subtitle: Text('\DH${room['price']}'),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

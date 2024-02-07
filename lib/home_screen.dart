@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hotelflutter/loginA.dart';
 import 'database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -70,8 +73,42 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
-              onPressed: () {
+              onPressed: ()async {
                 // Handle profile button tap
+                // Check authentication state
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // User is logged in, show logout dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Logout'),
+            content: Text('Are you sure you want to logout?'),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pop(context); // Close the dialog
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => logA()));
+
+                },
+                child: Text('Yes'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close the dialog
+                },
+                child: Text('No'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // User is not logged in, navigate to login screen
+      Navigator.push(context, MaterialPageRoute(builder: (context) => logA()));
+    }
               },
             ),
           ],

@@ -12,8 +12,8 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MaterialApp(
    // home: AddRoomWidget(), // Wrap AddRoomWidget with MaterialApp
-    //home: HomeScreen(),
-    home: logA(),
+    home: HomeScreen(),
+   // home: logA(),
   ));
 }
 
