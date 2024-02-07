@@ -6,14 +6,16 @@ import 'package:hotelflutter/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hotelflutter/home_screen.dart';
 import 'package:hotelflutter/loginA.dart';
+import 'package:hotelflutter/loginC.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MaterialApp(
-   // home: AddRoomWidget(), // Wrap AddRoomWidget with MaterialApp
-    home: HomeScreen(),
+    //home: AddRoomWidget(), // Wrap AddRoomWidget with MaterialApp
+    //home: HomeScreen(),
    // home: logA(),
+    home: loginC(),
   ));
 }
 

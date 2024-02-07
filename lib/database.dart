@@ -98,6 +98,20 @@ class Database {
     throw ('Error deleting room: $error');
   }
 }
+Future<bool> verifierInformationsConnexion(String email, String motDePasse) async {
+  try {
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('Client')
+        .where('email', isEqualTo: email)
+        .where('pass', isEqualTo: motDePasse)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
+  } catch (e) {
+    print('Erreur lors de la vérification des informations de connexion: $e');
+    throw e; // Gérer l'erreur selon les besoins
+  }
+}
 
 
 }
