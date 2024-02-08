@@ -39,17 +39,27 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
               itemBuilder: (context, index) {
                 final reservation = reservations[index];
                 // Build UI for each reservation item
-                return ListTile(
-                  title: Text('Reservation ${index + 1}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Room: ${reservation['label']}'),
-                      Text('Check-in: ${reservation['dated']}'),
-                      Text('Check-out: ${reservation['datef']}'),
-                      Text('Price: ${reservation['prix']}'),
-                    ],
-                  ),
+                return Column(
+                  children: [
+                    ListTile(
+                      title: Text('Reservation ${index + 1}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.blue.shade500),),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Room: ${reservation['label']}'),
+                          Text('Check-in: ${reservation['dated']}'),
+                          Text('Check-out: ${reservation['datef']}'),
+                          Text('Price: ${reservation['prix']}'),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Divider(
+                        height: 4,
+                      ),
+                    ),
+                  ],
                 );
               },
             );
