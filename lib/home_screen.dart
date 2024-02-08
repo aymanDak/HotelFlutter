@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String? userid = SessionM.getUserId();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Home')
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: roomsFuture,

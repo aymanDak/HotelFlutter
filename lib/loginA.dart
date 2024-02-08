@@ -86,7 +86,7 @@ class _logAState extends State<logA> {
                     onPressed: () async {
                       User? user = await login(email: emailcontr.text, password: passcontr.text, context: context);
                       if (user != null) {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AdminHomePage()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> AdminHomePage()));
                       }
                     },
                     child: const Text(
