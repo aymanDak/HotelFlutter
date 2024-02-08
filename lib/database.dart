@@ -135,11 +135,21 @@ Future<bool> verifierInformationsConnexion(String email, String motDePasse) asyn
         .where('pass', isEqualTo: motDePasse)
         .get();
 
-    if (querySnapshot.docs.isNotEmpty) {
+    /*if (querySnapshot.docs.isNotEmpty) {
       // Authentification réussie, définir l'ID de l'utilisateur dans la session
       SessionM.setUser(querySnapshot.docs.first.id);
       return true;
-    } else {
+    } */
+    if (querySnapshot.docs.isNotEmpty) {
+  // Authentication successful, set the user ID and username in the session
+  String userId = querySnapshot.docs.first.id;
+  String username = querySnapshot.docs.first['username']; // Adjust 'username' to the actual field name in your Firestore document
+  SessionM.setUser(userId, username);
+  return true;
+}
+
+    
+    else {
       return false;
     }
   } catch (e) {
@@ -171,6 +181,24 @@ Future<bool> ajouterReservation(Map<String, dynamic> infosReservation) async {
   } catch (e) {
     print("Erreur lors de l'ajout de la réservation: $e");
     return false; // Indique que l'ajout a échoué
+  }
+}
+static Future<List<Map<String, dynamic>>> getReservationsByUserId(String userId) async {
+  try {
+    // Query Firestore to get reservations for the specified userId
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection('reservations')
+        .where('userid', isEqualTo: userId)
+        .get();
+
+    // Convert the query snapshot to a list of maps
+    List<Map<String, dynamic>> reservations = querySnapshot.docs.map((doc) => doc.data()).toList();
+    
+    return reservations;
+  } catch (error) {
+    // Handle errors, such as Firestore query failures
+    print('Error fetching reservations: $error');
+    throw 'Failed to fetch reservations: $error';
   }
 }
 }
