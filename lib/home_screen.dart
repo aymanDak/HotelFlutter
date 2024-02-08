@@ -139,17 +139,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Handle home button tap
               },
             ),
-            IconButton(
-  icon: Icon(Icons.search),
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ReservationDetailsScreen(userId: SessionM.getUserId()!),
-      ),
-    );
-  },
-),
+           SessionM.getUserId() != null
+  ? IconButton(
+      icon: Icon(Icons.calendar_today), // Changed icon to reservations icon
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ReservationDetailsScreen(userId: SessionM.getUserId()!),
+          ),
+        );
+      },
+    )
+  : SizedBox(), // If the user is not logged in, show an empty SizedBox
 
             
             IconButton(

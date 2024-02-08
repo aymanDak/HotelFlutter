@@ -204,8 +204,8 @@ class _ReservationState extends State<Reservation> {
         infos = {
           "label": widget.label,
           "prix": pri,
-          "dated": _startDate,
-          "datef": _endDate,
+          "dated": '${_startDate!.day}/${_startDate!.month}/${_startDate!.year}',
+          "datef": '${_endDate!.day}/${_endDate!.month}/${_endDate!.year}',
           "userid": SessionM.userId,
           "jour": jours,
         };
