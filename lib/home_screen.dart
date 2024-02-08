@@ -3,6 +3,7 @@ import 'package:hotelflutter/SessionManager.dart';
 import 'package:hotelflutter/loginA.dart';
 import 'package:hotelflutter/loginC.dart';
 import 'package:hotelflutter/reservationDetails.dart';
+import 'package:hotelflutter/reservation_details_screen.dart';
 import 'database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -139,50 +140,68 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                // Handle search button tap
-              },
-            ),
+  icon: Icon(Icons.search),
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReservationDetailsScreen(userId: SessionM.getUserId()!),
+      ),
+    );
+  },
+),
+
             
             IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: () async {
-                // Handle profile button tap
-                // Check authentication state
+  icon: Icon(Icons.account_circle),
+  onPressed: () async {
+    // Handle profile button tap
+    // Check authentication state
 
-                if (userid != null) {
-                  // User is logged in, show logout dialog
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Logout'),
-                        content: Text('Are you sure you want to logout?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () async {
-                              Navigator.pop(context); // Close the dialog
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => loginC()));
-                            },
-                            child: Text('Yes'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context); // Close the dialog
-                            },
-                            child: Text('No'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                } else {
-                  // User is not logged in, navigate to login screen
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => logA()));
-                }
-              },
+    String? username = SessionM.getUsername();
+    if (username != null) {
+      // User is logged in, show logout dialog with username
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Logout'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Logged in as: $username'),
+                Text('Are you sure you want to logout?'),
+              ],
             ),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  Navigator.pop(context); // Close the dialog
+                  // Perform logout actions
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => loginC()));
+
+
+                },
+                child: Text('Yes'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close the dialog
+                },
+                child: Text('No'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // User is not logged in, navigate to login screen
+      Navigator.push(context, MaterialPageRoute(builder: (context) => loginC()));
+    }
+  },
+),
+
           ],
         ),
       ),
