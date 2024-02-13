@@ -192,85 +192,85 @@ class _ReservationState extends State<Reservation> {
                   padding: EdgeInsets.symmetric(horizontal: 0),
                   child: Center(
                     child:ElevatedButton(
-  onPressed: () async {
-    if (SessionM.userId == null) {
-      // User is not authenticated, redirect to login page
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => loginC()));
-    } else {
-      // User is authenticated, proceed with the reservation
-      Map<String, dynamic>? infos; // Déclaration de la variable infos comme nullable
+                      onPressed: () async {
+                        if (SessionM.userId == null) {
+                          // User is not authenticated, redirect to login page
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => loginC()));
+                        } else {
+                          // User is authenticated, proceed with the reservation
+                          Map<String, dynamic>? infos; // Déclaration de la variable infos comme nullable
 
-      if (_startDate != null && _endDate != null) {
-        infos = {
-          "label": widget.label,
-          "prix": pri,
-          "dated": '${_startDate!.day}/${_startDate!.month}/${_startDate!.year}',
-          "datef": '${_endDate!.day}/${_endDate!.month}/${_endDate!.year}',
-          "userid": SessionM.userId,
-          "jour": jours,
-        };
-      }
+                          if (_startDate != null && _endDate != null) {
+                            infos = {
+                              "label": widget.label,
+                              "prix": pri,
+                              "dated": '${_startDate!.day}/${_startDate!.month}/${_startDate!.year}',
+                              "datef": '${_endDate!.day}/${_endDate!.month}/${_endDate!.year}',
+                              "userid": SessionM.userId,
+                              "jour": jours,
+                            };
+                          }
 
-      if (infos != null) {
-        bool success = await Database().ajouterReservation(infos);
-        if (success) {
-          _showSuccessDialog(); // Affiche le dialogue de réussite
-        } else {
-          _showErrorDialog(); // Affiche le dialogue d'erreur
-        }
-      } else {
-        // Afficher une boîte de dialogue ou un message indiquant que tous les champs doivent être remplis
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Row(
-                children: [
-                  Icon(Icons.warning, color: Colors.yellow), // icône d'avertissement à gauche du titre
-                  SizedBox(width: 10), // espace entre l'icône et le texte
-                  Text(
-                    'Champs incomplets',
-                    style: TextStyle(
-                      color: Colors.black, // couleur jaune pour le titre
-                      fontWeight: FontWeight.bold, // texte en gras
+                          if (infos != null) {
+                            bool success = await Database().ajouterReservation(infos);
+                            if (success) {
+                              _showSuccessDialog(); // Affiche le dialogue de réussite
+                            } else {
+                              _showErrorDialog(); // Affiche le dialogue d'erreur
+                            }
+                          } else {
+                            // Afficher une boîte de dialogue ou un message indiquant que tous les champs doivent être remplis
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.warning, color: Colors.yellow), // icône d'avertissement à gauche du titre
+                                      SizedBox(width: 10), // espace entre l'icône et le texte
+                                      Text(
+                                        'Champs incomplets',
+                                        style: TextStyle(
+                                          color: Colors.black, // couleur jaune pour le titre
+                                          fontWeight: FontWeight.bold, // texte en gras
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  content: Text('Veuillez sélectionner une période pour effectuer la réservation.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(); // Ferme le dialogue
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.all(10), // ajout de rembourrage
+                                        child: Text(
+                                          'OK',
+                                          style: TextStyle(color: Colors.white), // couleur du texte en blanc
+                                        ),
+                                      ),
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Colors.yellow), // couleur de fond rouge
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        }
+                      },
+                      child: Text(
+                        'Reserver',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue, // Couleur de fond du bouton
+                        textStyle: TextStyle(fontSize: 20), // Style du texte du bouton
+                        padding: EdgeInsets.symmetric(horizontal: 90, vertical: 15), // Espacement intérieur du bouton
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              content: Text('Veuillez sélectionner une période pour effectuer la réservation.'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Ferme le dialogue
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(10), // ajout de rembourrage
-                    child: Text(
-                      'OK',
-                      style: TextStyle(color: Colors.white), // couleur du texte en blanc
-                    ),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.yellow), // couleur de fond rouge
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    }
-  },
-  child: Text(
-    'Reserver',
-    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-  ),
-  style: ElevatedButton.styleFrom(
-    primary: Colors.blue, // Couleur de fond du bouton
-    textStyle: TextStyle(fontSize: 20), // Style du texte du bouton
-    padding: EdgeInsets.symmetric(horizontal: 90, vertical: 15), // Espacement intérieur du bouton
-  ),
-),
 
                   ),
                 ),
@@ -288,8 +288,8 @@ class _ReservationState extends State<Reservation> {
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(Duration(days: 365)),
       initialDateRange: DateTimeRange(
-        start: _startDate ?? DateTime.now(), // Utilisation de DateTime.now() si _startDate est null
-        end: _endDate ?? DateTime.now(), // Utilisation de DateTime.now() si _endDate est null
+        start: _startDate ?? DateTime.now(),
+        end: _endDate ?? DateTime.now(), 
       ),
     );
 

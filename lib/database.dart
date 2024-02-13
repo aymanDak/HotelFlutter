@@ -185,22 +185,24 @@ Future<bool> ajouterReservation(Map<String, dynamic> infosReservation) async {
 }
 static Future<List<Map<String, dynamic>>> getReservationsByUserId(String userId) async {
   try {
-    // Query Firestore to get reservations for the specified userId
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection('reservations')
         .where('userid', isEqualTo: userId)
         .get();
 
-    // Convert the query snapshot to a list of maps
-    List<Map<String, dynamic>> reservations = querySnapshot.docs.map((doc) => doc.data()).toList();
+    List<Map<String, dynamic>> reservations = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> reservationData = doc.data();
+      reservationData['id'] = doc.id; // Ajouter l'ID de la réservation
+      return reservationData;
+    }).toList();
     
     return reservations;
   } catch (error) {
-    // Handle errors, such as Firestore query failures
     print('Error fetching reservations: $error');
     throw 'Failed to fetch reservations: $error';
   }
 }
+
 
 
 Future<List<Map<String, dynamic>>> getReservations() async {
@@ -229,6 +231,12 @@ Future<List<Map<String, dynamic>>> getReservations() async {
       throw 'Failed to fetch client: $error';
     }
   }
-
+static Future<void> deleteReservation(String reservationId) async {
+  try {
+    await _firestore.collection('reservations').doc(reservationId).delete();
+  } catch (error) {
+    throw ('Error deleting reservation: $error');
+  }
+}
 
 }

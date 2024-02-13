@@ -42,7 +42,7 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
                 return Column(
                   children: [
                     ListTile(
-                      title: Text('Reservation ${index + 1}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.blue.shade500),),
+                      title: Text('Reservation ${index + 1}', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.blue.shade500)),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -51,6 +51,49 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
                           Text('Check-out: ${reservation['datef']}'),
                           Text('Price: ${reservation['prix']} MAD'),
                         ],
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                          size: 30, // Couleur rouge pour l'icône
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Confirmation'),
+                                content: Text('Êtes-vous sûr de vouloir supprimer cette réservation ?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () async {
+                                      try {
+                                        await Database.deleteReservation(reservation['id']);
+                                        Navigator.of(context).pop(); // Ferme la boîte de dialogue de confirmation
+                                        setState(() {
+                                          // Rafraîchit l'interface pour refléter la suppression de la réservation
+                                          reservations.removeAt(index);
+                                        });
+                                      } catch (error) {
+                                        print('Error deleting reservation: $error');
+                                        // Gérer les erreurs de suppression de réservation
+                                      }
+                                    },
+                                    child: Text('Oui'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); // Ferme la boîte de dialogue de confirmation
+                                    },
+                                    child: Text('Non'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        
+                        },
                       ),
                     ),
                     Padding(
