@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String? userid = SessionM.getUserId();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home')
+        title: Text('Home'),automaticallyImplyLeading: false,
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: roomsFuture,
@@ -182,6 +182,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pop(context); // Close the dialog
                   // Perform logout actions
                         Navigator.push(context, MaterialPageRoute(builder: (context) => loginC()));
+                        userid=null;
+                        username=null;
 
 
                 },

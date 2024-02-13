@@ -185,7 +185,7 @@ class _AddRoomWidgetContentState extends State<_AddRoomWidgetContent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Room'),
+        title: Text('Add Room')
       ),
       body: Container(
         decoration: const BoxDecoration(

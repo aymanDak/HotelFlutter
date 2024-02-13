@@ -49,7 +49,7 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
                           Text('Room: ${reservation['label']}'),
                           Text('Check-in: ${reservation['dated']}'),
                           Text('Check-out: ${reservation['datef']}'),
-                          Text('Price: ${reservation['prix']}'),
+                          Text('Price: ${reservation['prix']} MAD'),
                         ],
                       ),
                     ),

@@ -201,4 +201,34 @@ static Future<List<Map<String, dynamic>>> getReservationsByUserId(String userId)
     throw 'Failed to fetch reservations: $error';
   }
 }
+
+
+Future<List<Map<String, dynamic>>> getReservations() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance.collection('reservations').get();
+
+      List<Map<String, dynamic>> reservations =
+          querySnapshot.docs.map((doc) => doc.data()).toList();
+
+      return reservations;
+    } catch (error) {
+      print('Error fetching reservations: $error');
+      throw 'Failed to fetch reservations: $error';
+    }
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getClient(String clientId) async {
+    try {
+      return await FirebaseFirestore.instance
+          .collection('Client')
+          .doc(clientId)
+          .get();
+    } catch (error) {
+      print('Error fetching client: $error');
+      throw 'Failed to fetch client: $error';
+    }
+  }
+
+
 }

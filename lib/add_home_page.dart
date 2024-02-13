@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hotelflutter/ManageReservationsPage.dart';
 import 'package:hotelflutter/add_room_widget.dart';
 import 'package:hotelflutter/loginA.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:hotelflutter/loginC.dart';
 
 
 class AdminHomePage extends StatefulWidget {
@@ -72,7 +74,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             SizedBox(height: 50.0),
             ElevatedButton(
               onPressed: () {
-                
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => ManageReservationsPage()));
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 16.0),
@@ -90,7 +92,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
         child: FloatingActionButton(
           onPressed: () {
             // Naviguer vers la page de connexion lors de la déconnexion
-            Navigator.push(context, MaterialPageRoute(builder: (context) => logA()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => loginC()));
           },
           child: Icon(Icons.logout, color: Colors.black), // Icon en noir
           backgroundColor: Colors.white, // Couleur de fond blanche pour le contraste
